@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Hello | My Octopress Blog]]></title>
+  <link href="http://yoursite.com/blog/categories/hello/atom.xml" rel="self"/>
+  <link href="http://yoursite.com/"/>
+  <updated>2015-10-09T17:02:53+08:00</updated>
+  <id>http://yoursite.com/</id>
+  <author>
+    <name><![CDATA[Your Name]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Hello World]]></title>
+    <link href="http://yoursite.com/blog/2015/10/09/hello-world/"/>
+    <updated>2015-10-09T16:26:28+08:00</updated>
+    <id>http://yoursite.com/blog/2015/10/09/hello-world</id>
+    <content type="html"><![CDATA[<h1>hello world</h1>
+
+<h2>i can play,i will learn</h2>
+
+<p><strong>strong</strong>
+- java
+    - php
+    - http
+-php
+-html</p>
+
+<blockquote><p>code</p></blockquote>
+
+<p><a href="http://baidu.com">baidu</a></p>
+
+<p><img src="http://pic.nipic.com/2007-11-09/2007119122519868_2.jpg" alt="image" /></p>
+
+<pre><code>public static void main()
+{
+    syso("hello world");
+}
+</code></pre>
+]]></content>
+  </entry>
+  
+</feed>
