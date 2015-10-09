@@ -2,12 +2,12 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Hello | My Octopress Blog]]></title>
-  <link href="http://yoursite.com/blog/categories/hello/atom.xml" rel="self"/>
-  <link href="http://yoursite.com/"/>
-  <updated>2015-10-09T17:02:53+08:00</updated>
-  <id>http://yoursite.com/</id>
+  <link href="http://flyniu.github.io/blog/categories/hello/atom.xml" rel="self"/>
+  <link href="http://flyniu.github.io/"/>
+  <updated>2015-10-09T17:40:59+08:00</updated>
+  <id>http://flyniu.github.io/</id>
   <author>
-    <name><![CDATA[Your Name]]></name>
+    <name><![CDATA[flyniu]]></name>
     
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Hello World]]></title>
-    <link href="http://yoursite.com/blog/2015/10/09/hello-world/"/>
+    <link href="http://flyniu.github.io/blog/2015/10/09/hello-world/"/>
     <updated>2015-10-09T16:26:28+08:00</updated>
-    <id>http://yoursite.com/blog/2015/10/09/hello-world</id>
+    <id>http://flyniu.github.io/blog/2015/10/09/hello-world</id>
     <content type="html"><![CDATA[<h1>hello world</h1>
 
 <h2>i can play,i will learn</h2>

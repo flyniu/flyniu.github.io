@@ -1,22 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>http://yoursite.com/blog/2015/10/09/hello-world/</loc>
+    <loc>http://flyniu.github.io/blog/2015/10/09/hello-world/</loc>
     <lastmod>2015-10-09T16:26:28+08:00</lastmod>
   </url>
   <url>
-    <loc>http://yoursite.com/blog/archives/</loc>
+    <loc>http://flyniu.github.io/404.html</loc>
   </url>
   <url>
-    <loc>http://yoursite.com/</loc>
+    <loc>http://flyniu.github.io/blog/archives/</loc>
   </url>
   <url>
-    <loc>http://yoursite.com/first-page/</loc>
+    <loc>http://flyniu.github.io/</loc>
   </url>
   <url>
-    <loc>http://yoursite.com/blog/categories/hello/</loc>
+    <loc>http://flyniu.github.io/first-page/</loc>
   </url>
   <url>
-    <loc>http://yoursite.com/blog/categories/first/</loc>
+    <loc>http://flyniu.github.io/aboutme/</loc>
+  </url>
+  <url>
+    <loc>http://flyniu.github.io/blog/categories/hello/</loc>
+  </url>
+  <url>
+    <loc>http://flyniu.github.io/blog/categories/first/</loc>
   </url>
 </urlset>
