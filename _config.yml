@@ -2,11 +2,11 @@
 #      Main Configs       #
 # ----------------------- #
 
-url: http://yoursite.com
+url: http://flyniu.github.io
 title: My Octopress Blog
 subtitle: A blogging framework for hackers.
 author: Your Name
-simple_search: https://www.google.com/search
+simple_search: https://www.baidu.com/search
 description:
 
 # Default date format is "ordinal" (resulting in "July 22nd 2007")
