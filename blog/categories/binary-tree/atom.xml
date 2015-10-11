@@ -4,7 +4,7 @@
   <title><![CDATA[Category: binary tree | I will get it]]></title>
   <link href="http://flyniu.github.io/blog/categories/binary-tree/atom.xml" rel="self"/>
   <link href="http://flyniu.github.io/"/>
-  <updated>2015-10-11T15:07:51+08:00</updated>
+  <updated>2015-10-11T16:00:13+08:00</updated>
   <id>http://flyniu.github.io/</id>
   <author>
     <name><![CDATA[flyniu]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[the point of binary tree]]></title>
-    <link href="http://flyniu.github.io/blog/2015/10/08/hello-world/"/>
+    <link href="http://flyniu.github.io/blog/2015/10/08/binary-tree/"/>
     <updated>2015-10-08T16:26:28+08:00</updated>
-    <id>http://flyniu.github.io/blog/2015/10/08/hello-world</id>
+    <id>http://flyniu.github.io/blog/2015/10/08/binary-tree</id>
     <content type="html"><![CDATA[<p>二叉树三种遍历总是记不住，希望写一遍以后能够记下。。</p>
 
 <!--more-->
@@ -34,7 +34,7 @@
 
 <p>以先序和中序为例构建二叉树的java实现：</p>
 
-<pre><code class="java">//TreeNode.java
+<pre><code class="">//TreeNode.java
 public class TreeNode {
          int val;
          TreeNode left;
@@ -43,7 +43,7 @@ public class TreeNode {
 }
 </code></pre>
 
-<pre><code class="java">//solution.java
+<pre><code class="">//solution.java
 public class solution {
 
 
