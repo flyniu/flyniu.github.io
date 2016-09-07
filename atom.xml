@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[flyniu's blog]]></title>
+  <link href="http://flyniu.github.io/atom.xml" rel="self"/>
+  <link href="http://flyniu.github.io/"/>
+  <updated>2016-09-07T11:02:02+08:00</updated>
+  <id>http://flyniu.github.io/</id>
+  <author>
+    <name><![CDATA[Niu Zijian]]></name>
+    <email><![CDATA[niuzijian1@qq.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[二叉树]]></title>
+    <link href="http://flyniu.github.io/blog/2016/05/26/hello/"/>
+    <updated>2016-05-26T18:49:00+08:00</updated>
+    <id>http://flyniu.github.io/blog/2016/05/26/hello</id>
+    <content type="html"><![CDATA[<p>二叉树三种遍历总是记不住，希望写一遍以后能够记下。。</p>
+
+<!--more-->
+
+
+<ul>
+<li>先序：父先</li>
+<li>中序：父中</li>
+<li>后序：父后</li>
+</ul>
+
+
+<p>已知中序和后序或者中序和先序序列事都可以重构出该二叉树，这也是常见的编程实现题目。</p>
+
+<p>以先序和中序为例构建二叉树的java实现：</p>
+
+<p>定义二叉树：</p>
+
+<figure class='code'><figcaption><span>this is a java www.baidu.com link</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="c1">//TreeNode.java</span>
+</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">TreeNode</span> <span class="o">{</span>
+</span><span class='line'>       <span class="kt">int</span> <span class="n">val</span><span class="o">;</span>
+</span><span class='line'>       <span class="n">TreeNode</span> <span class="n">left</span><span class="o">;</span>
+</span><span class='line'>       <span class="n">TreeNode</span> <span class="n">right</span><span class="o">;</span>
+</span><span class='line'>       <span class="n">TreeNode</span><span class="o">(</span><span class="kt">int</span> <span class="n">x</span><span class="o">)</span> <span class="o">{</span> <span class="n">val</span> <span class="o">=</span> <span class="n">x</span><span class="o">;</span> <span class="o">}</span>     
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>实现算法</p>
+
+<figure class='code'><figcaption><span>this is a java www.baidu.com link</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="c1">//solution.java</span>
+</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">solution</span> <span class="o">{</span>
+</span><span class='line'>  <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span> <span class="o">[]</span> <span class="n">args</span><span class="o">){</span>
+</span><span class='line'>      <span class="kt">int</span> <span class="n">pre</span><span class="o">[]</span> <span class="o">={</span><span class="mi">1</span><span class="o">,</span><span class="mi">2</span><span class="o">,</span><span class="mi">4</span><span class="o">,</span><span class="mi">7</span><span class="o">,</span><span class="mi">3</span><span class="o">,</span><span class="mi">5</span><span class="o">,</span><span class="mi">6</span><span class="o">,</span><span class="mi">8</span><span class="o">};</span>
+</span><span class='line'>      <span class="kt">int</span> <span class="n">in</span><span class="o">[]</span> <span class="o">=</span> <span class="o">{</span><span class="mi">4</span><span class="o">,</span><span class="mi">7</span><span class="o">,</span><span class="mi">2</span><span class="o">,</span><span class="mi">1</span><span class="o">,</span><span class="mi">5</span><span class="o">,</span><span class="mi">3</span><span class="o">,</span><span class="mi">8</span><span class="o">,</span><span class="mi">6</span><span class="o">};</span>
+</span><span class='line'>      <span class="n">TreeNode</span> <span class="n">tree</span> <span class="o">=</span> <span class="n">reConstructBinaryTree</span><span class="o">(</span><span class="n">pre</span><span class="o">,</span> <span class="n">in</span><span class="o">);</span>
+</span><span class='line'>      <span class="n">postTraverse</span><span class="o">(</span><span class="n">tree</span><span class="o">);</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'>      
+</span><span class='line'>  <span class="kd">public</span> <span class="kd">static</span> <span class="n">TreeNode</span> <span class="nf">reConstructBinaryTree</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">pre</span><span class="o">,</span> <span class="kt">int</span><span class="o">[]</span> <span class="n">in</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>      <span class="kt">int</span> <span class="n">lengthpre</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="na">length</span><span class="o">;</span>
+</span><span class='line'>      <span class="kt">int</span> <span class="n">lengthin</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="na">length</span><span class="o">;</span>
+</span><span class='line'>      <span class="k">if</span> <span class="o">(</span><span class="n">lengthin</span> <span class="o">!=</span> <span class="n">lengthpre</span><span class="o">)</span>
+</span><span class='line'>          <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+</span><span class='line'>      <span class="n">TreeNode</span> <span class="n">tree</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">TreeNode</span><span class="o">(</span><span class="n">pre</span><span class="o">[</span><span class="mi">0</span><span class="o">]);</span>
+</span><span class='line'>      <span class="n">tree</span><span class="o">.</span><span class="na">left</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+</span><span class='line'>      <span class="n">tree</span><span class="o">.</span><span class="na">right</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+</span><span class='line'>      <span class="k">if</span> <span class="o">(</span><span class="n">lengthin</span> <span class="o">==</span> <span class="mi">1</span><span class="o">)</span>
+</span><span class='line'>          <span class="k">return</span> <span class="n">tree</span><span class="o">;</span>
+</span><span class='line'>      <span class="kt">int</span> <span class="n">i</span><span class="o">;</span>
+</span><span class='line'>      <span class="k">for</span> <span class="o">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">lengthin</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+</span><span class='line'>          <span class="k">if</span> <span class="o">(</span><span class="n">tree</span><span class="o">.</span><span class="na">val</span> <span class="o">==</span> <span class="n">in</span><span class="o">[</span><span class="n">i</span><span class="o">])</span>
+</span><span class='line'>              <span class="k">break</span><span class="o">;</span>
+</span><span class='line'>      <span class="o">}</span>
+</span><span class='line'>      <span class="k">if</span> <span class="o">(</span><span class="n">i</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>          <span class="kt">int</span> <span class="n">leftin</span><span class="o">[]</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="n">i</span><span class="o">];</span>
+</span><span class='line'>          <span class="kt">int</span> <span class="n">leftpre</span><span class="o">[]</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="n">i</span><span class="o">];</span>
+</span><span class='line'>          <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">i</span><span class="o">;</span> <span class="n">j</span><span class="o">++)</span> <span class="o">{</span>
+</span><span class='line'>              <span class="n">leftin</span><span class="o">[</span><span class="n">j</span><span class="o">]</span> <span class="o">=</span> <span class="n">in</span><span class="o">[</span><span class="n">j</span><span class="o">];</span>
+</span><span class='line'>              <span class="n">leftpre</span><span class="o">[</span><span class="n">j</span><span class="o">]</span> <span class="o">=</span> <span class="n">pre</span><span class="o">[</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="o">];</span>
+</span><span class='line'>          <span class="o">}</span>
+</span><span class='line'>          <span class="n">tree</span><span class="o">.</span><span class="na">left</span> <span class="o">=</span> <span class="n">reConstructBinaryTree</span><span class="o">(</span><span class="n">leftpre</span><span class="o">,</span> <span class="n">leftin</span><span class="o">);</span>
+</span><span class='line'>      <span class="o">}</span>
+</span><span class='line'>      <span class="k">if</span> <span class="o">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">lengthin</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>          <span class="kt">int</span> <span class="n">rightin</span><span class="o">[]</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="n">lengthin</span> <span class="o">-</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="o">];</span>
+</span><span class='line'>          <span class="kt">int</span> <span class="n">rightpre</span><span class="o">[]</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="n">lengthin</span> <span class="o">-</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="o">];</span>
+</span><span class='line'>          <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">lengthin</span> <span class="o">-</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="o">;</span> <span class="n">j</span><span class="o">++)</span> <span class="o">{</span>
+</span><span class='line'>              <span class="n">rightin</span><span class="o">[</span><span class="n">j</span><span class="o">]</span> <span class="o">=</span> <span class="n">in</span><span class="o">[</span><span class="n">j</span> <span class="o">+</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="o">];</span>
+</span><span class='line'>              <span class="n">rightpre</span><span class="o">[</span><span class="n">j</span><span class="o">]</span> <span class="o">=</span> <span class="n">pre</span><span class="o">[</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">i</span><span class="o">];</span>
+</span><span class='line'>          <span class="o">}</span>
+</span><span class='line'>          <span class="n">tree</span><span class="o">.</span><span class="na">right</span> <span class="o">=</span> <span class="n">reConstructBinaryTree</span><span class="o">(</span><span class="n">rightpre</span><span class="o">,</span> <span class="n">rightin</span><span class="o">);</span>
+</span><span class='line'>      <span class="o">}</span>
+</span><span class='line'>      <span class="k">return</span> <span class="n">tree</span><span class="o">;</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">postTraverse</span><span class="o">(</span><span class="n">TreeNode</span> <span class="n">tree</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>      <span class="k">if</span> <span class="o">(</span><span class="n">tree</span><span class="o">.</span><span class="na">left</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span>
+</span><span class='line'>          <span class="n">postTraverse</span><span class="o">(</span><span class="n">tree</span><span class="o">.</span><span class="na">left</span><span class="o">);</span>
+</span><span class='line'>      <span class="k">if</span> <span class="o">(</span><span class="n">tree</span><span class="o">.</span><span class="na">right</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span>
+</span><span class='line'>          <span class="n">postTraverse</span><span class="o">(</span><span class="n">tree</span><span class="o">.</span><span class="na">right</span><span class="o">);</span>
+</span><span class='line'>      <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">print</span><span class="o">(</span><span class="n">tree</span><span class="o">.</span><span class="na">val</span><span class="o">+</span><span class="s">&quot; &quot;</span><span class="o">);</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
+  
+</feed>
