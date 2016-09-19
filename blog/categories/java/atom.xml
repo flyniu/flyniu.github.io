@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: java | flyniu's blog]]></title>
+  <link href="http://flyniu.github.io/blog/categories/java/atom.xml" rel="self"/>
+  <link href="http://flyniu.github.io/"/>
+  <updated>2016-09-19T21:07:19+08:00</updated>
+  <id>http://flyniu.github.io/</id>
+  <author>
+    <name><![CDATA[Niu Zijian]]></name>
+    <email><![CDATA[niuzijian1@qq.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[java-mvc]]></title>
+    <link href="http://flyniu.github.io/blog/2016/09/19/java-mvc/"/>
+    <updated>2016-09-19T19:14:00+08:00</updated>
+    <id>http://flyniu.github.io/blog/2016/09/19/java-mvc</id>
+    <content type="html"><![CDATA[<p>对javaMVC终于有了一点自己的理解。</p>
+
+<!--more-->
+
+
+<p>所谓MVC 模型 视图和控制器，就是一种将数据显示和业务逻辑分开编写的一种设计思想。的确把整个逻辑设计代码写在一个jsp页面中是一件恶心并影响效率的事情。将业务逻辑代码聚集到一个部件里面，再被数据显示界面所调用，这样代码可移植性和效率都大大增加。</p>
+
+<p>用一个显示新闻详情页的例子来展示一下：
+创建一个详情页 detail.jsp</p>
+
+<pre><code class="java detail.jsp">&lt;%@page import="com.entity.Artical"%&gt;
+&lt;%@ page language="java" import="java.util.*" pageEncoding="utf-8"%&gt;
+&lt;%
+String path = request.getContextPath();
+String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+Artical artical = (Artical)request.getAttribute("artical");
+if(artical==null){
+    response.sendRedirect("index.jsp");
+    return;
+}
+%&gt;
+
+&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;base href="&lt;%=basePath%&gt;"&gt;
+
+    &lt;title&gt;"详情页"&lt;/title&gt;
+
+    &lt;meta http-equiv="pragma" content="no-cache"&gt;
+    &lt;meta http-equiv="cache-control" content="no-cache"&gt;
+    &lt;meta http-equiv="expires" content="0"&gt;    
+    &lt;meta http-equiv="keywords" content="keyword1,keyword2,keyword3"&gt;
+    &lt;meta http-equiv="description" content="This is my page"&gt;
+    &lt;link rel="stylesheet" type="text/css" href="&lt;%=basePath%&gt;css/admin.css"&gt;
+
+
+  &lt;/head&gt;
+
+  &lt;body&gt;
+    &lt;jsp:include page="top.jsp"&gt;&lt;/jsp:include&gt;
+    &lt;jsp:include page="nav.jsp"&gt;&lt;/jsp:include&gt;
+    &lt;div class="w"&gt;
+        &lt;h1 class="title"&gt;&lt;%=artical.getArtical_title() %&gt;&lt;/h1&gt;
+        &lt;p class="data"&gt;发表日期：&lt;%=artical.getArtical_date() %&gt;&lt;/p&gt;
+        &lt;div class="content"&gt;
+        &lt;%=artical.getArtical_content() %&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="footer1"&gt;&lt;center&gt;&lt;h5&gt;7.20&lt;/h5&gt;&lt;/center&gt;&lt;/div&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<p>在创建一个用来控制业务流程的servlet,在他的doget方法中通过访问数据库获得其相应的文章标题和文章详情等数据，通过
+request.getRequestDispatcher(&ldquo;detail.jsp&rdquo;).forward(request, response);语句发送给detail.jsp</p>
+
+<p>并且把该servlet的映射关系 写成item.html
+通过每篇文章的&lt;a></p>
+
+<p>标签来调用这个servlet</p>
+
+<pre><code class="java a标签">&lt;a href="item.html?artical_id=&lt;%=artical.getArtical_id() %&gt;" value="&lt;%=artical.getArtical_id()%&gt;"&gt;&lt;%=artical.getArtical_title() %&gt;&lt;/a&gt;
+</code></pre>
+
+<pre><code class="java detailservlet.java">
+public void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+            sqlHelper sql = new sqlHelper();
+            List&lt;Nav&gt; list = sql.queryallnav();
+            String artical_id = request.getParameter("artical_id");
+            if(artical_id==null||"".equals(artical_id)){
+                response.sendRedirect("index.html");
+                return;
+            }
+            Artical artical  = sql.queryarticalbyid(artical_id);
+            sql.destroy();
+            request.setAttribute("artical", artical);
+            request.setAttribute("navlist", list);
+            request.getRequestDispatcher("detail.jsp").forward(request, response);
+    }
+</code></pre>
+
+<p>这样就是一个最简单的mvc模式，希望为今后学习MVC框架打下基础。</p>
+]]></content>
+  </entry>
+  
+</feed>
