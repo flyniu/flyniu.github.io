@@ -4,7 +4,7 @@
   <title><![CDATA[flyniu's blog]]></title>
   <link href="http://flyniu.github.io/atom.xml" rel="self"/>
   <link href="http://flyniu.github.io/"/>
-  <updated>2016-09-19T21:07:19+08:00</updated>
+  <updated>2016-09-28T11:17:49+08:00</updated>
   <id>http://flyniu.github.io/</id>
   <author>
     <name><![CDATA[Niu Zijian]]></name>
@@ -12,6 +12,176 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[algo]]></title>
+    <link href="http://flyniu.github.io/blog/2016/09/25/algo/"/>
+    <updated>2016-09-25T19:14:00+08:00</updated>
+    <id>http://flyniu.github.io/blog/2016/09/25/algo</id>
+    <content type="html"><![CDATA[<p>常用算法的总结</p>
+
+<!--more-->
+
+
+<h1>分治</h1>
+
+<p>在排序算法中，快速排序和归并排血都用到了分治的思想，所谓分治就是分而治之，再利用递归，将一份比较大的任务分成若干个小任务去完成。</p>
+
+<h2>快速排序</h2>
+
+<p>快速排序，采用了挖坑填坑的方法来完成每一趟排序，每一次小排序后都会分成左边一组和右边一组，分别小于和大于一个分界数（一般是数组第一个数字）再分别对这两组进行排序。相当于对左右两组分而置之，直到完成排序。</p>
+
+<figure class='code'><figcaption><span>adjustarray(每一趟排序的函数)</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">private</span> <span class="kd">static</span> <span class="kt">int</span> <span class="nf">adjustarray</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">array</span><span class="o">,</span><span class="kt">int</span> <span class="n">l</span><span class="o">,</span><span class="kt">int</span> <span class="n">r</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>  <span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="n">l</span><span class="o">;</span><span class="c1">//l和r分别是数组的左指针和右指针</span>
+</span><span class='line'>  <span class="kt">int</span> <span class="n">j</span><span class="o">=</span><span class="n">r</span><span class="o">;</span><span class="c1">//将其赋给i，j，进行指针的移动</span>
+</span><span class='line'>  <span class="k">while</span><span class="o">(</span><span class="n">i</span><span class="o">&lt;</span><span class="n">j</span><span class="o">){</span>
+</span><span class='line'>  <span class="k">while</span><span class="o">(</span><span class="n">i</span><span class="o">&lt;</span><span class="n">j</span> <span class="o">&amp;&amp;</span> <span class="n">array</span><span class="o">[</span><span class="n">j</span><span class="o">]&gt;=</span><span class="n">array</span><span class="o">[</span><span class="n">l</span><span class="o">]){</span>
+</span><span class='line'>      <span class="n">j</span><span class="o">--;</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>  <span class="k">if</span><span class="o">(</span><span class="n">i</span><span class="o">&lt;</span><span class="n">j</span><span class="o">){</span>
+</span><span class='line'>      <span class="n">array</span><span class="o">[</span><span class="n">i</span><span class="o">]=</span><span class="n">array</span><span class="o">[</span><span class="n">j</span><span class="o">];</span>
+</span><span class='line'>      <span class="n">i</span><span class="o">++;</span>
+</span><span class='line'>  <span class="o">}</span><span class="c1">//先是右指针向左移动找到比临界值小的数，填入上一个坑中</span>
+</span><span class='line'>  <span class="k">while</span><span class="o">(</span><span class="n">i</span><span class="o">&lt;</span><span class="n">j</span> <span class="o">&amp;&amp;</span> <span class="n">array</span><span class="o">[</span><span class="n">i</span><span class="o">]&lt;=</span><span class="n">array</span><span class="o">[</span><span class="n">l</span><span class="o">]){</span>
+</span><span class='line'>      <span class="n">i</span><span class="o">++;</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>  <span class="k">if</span><span class="o">(</span><span class="n">i</span><span class="o">&lt;</span><span class="n">j</span><span class="o">){</span>
+</span><span class='line'>      <span class="n">array</span><span class="o">[</span><span class="n">j</span><span class="o">]=</span><span class="n">array</span><span class="o">[</span><span class="n">i</span><span class="o">];</span>
+</span><span class='line'>      <span class="n">j</span><span class="o">--;</span>
+</span><span class='line'>  <span class="o">}</span><span class="c1">//接着左指针向右移动找到比临界值大的数，填入上一个坑中</span>
+</span><span class='line'>  
+</span><span class='line'>  <span class="o">}</span>    
+</span><span class='line'>  <span class="n">array</span><span class="o">[</span><span class="n">j</span><span class="o">]=</span><span class="n">array</span><span class="o">[</span><span class="n">l</span><span class="o">];</span><span class="c1">//最后把临界值的数填入i=j也就是临街位置的坑中，该值不会再改变</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">i</span><span class="o">;</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>接下来是quick_sort的主调用函数</p>
+
+<figure class='code'><figcaption><span>quick_sort</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">prviate</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">quick_sort</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">array</span><span class="o">,</span><span class="kt">int</span> <span class="n">l</span><span class="o">,</span><span class="kt">int</span> <span class="n">r</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>  <span class="k">if</span><span class="o">(</span><span class="n">l</span><span class="o">&lt;</span><span class="n">r</span><span class="o">){</span>
+</span><span class='line'>  <span class="kt">int</span> <span class="n">mid</span> <span class="o">=</span> <span class="n">adjustarray</span><span class="o">(</span><span class="n">array</span><span class="o">,</span><span class="n">l</span><span class="o">,</span><span class="n">r</span><span class="o">);</span>
+</span><span class='line'>  <span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">r</span><span class="o">;</span><span class="n">i</span><span class="o">++){</span>
+</span><span class='line'>      <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">print</span><span class="o">(</span><span class="n">array</span><span class="o">[</span><span class="n">i</span><span class="o">]+</span><span class="s">&quot; &quot;</span><span class="o">);</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>  <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">();</span>
+</span><span class='line'>  <span class="n">quick_sort</span><span class="o">(</span><span class="n">array</span><span class="o">,</span><span class="n">l</span><span class="o">,</span><span class="n">mid</span><span class="o">-</span><span class="mi">1</span><span class="o">);</span>
+</span><span class='line'>  <span class="n">quick_sort</span><span class="o">(</span><span class="n">array</span><span class="o">,</span><span class="n">mid</span><span class="o">+</span><span class="mi">1</span><span class="o">,</span><span class="n">r</span><span class="o">);</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>  <span class="c1">//这个函数就是分治思想的函数，思想明白了这个函数也就没有什么不能理解的了</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>归并排序</h2>
+
+<p>归并排序是先分再和的思想，其重点和难点是在和（merge）的函数上，对一趟数组，先将其按中间数字的数值等分为左右两部分，比其小的在左，大的在右（从小到大的顺序），直到其为一个数字，相对有序之后，接着进行合并，将数组两两形成有序数组。</p>
+
+<figure class='code'><figcaption><span>merge操作</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">private</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">merge</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">array</span><span class="o">,</span><span class="kt">int</span> <span class="n">l</span><span class="o">,</span><span class="kt">int</span> <span class="n">mid</span><span class="o">,</span><span class="kt">int</span> <span class="n">r</span><span class="o">){</span>
+</span><span class='line'>  <span class="kt">int</span> <span class="n">temp</span><span class="o">[]</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="n">r</span><span class="o">-</span><span class="n">l</span><span class="o">+</span><span class="mi">1</span><span class="o">];</span><span class="c1">//创建一个临时数组用来承接两个数组合并后的结果</span>
+</span><span class='line'>  <span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="n">l</span><span class="o">;</span>
+</span><span class='line'>  <span class="kt">int</span> <span class="n">j</span><span class="o">=</span><span class="n">mid</span><span class="o">+</span><span class="mi">1</span><span class="o">;</span>
+</span><span class='line'>  <span class="k">while</span><span class="o">(</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">mid</span> <span class="o">&amp;&amp;</span> <span class="n">j</span><span class="o">&lt;=</span><span class="n">r</span><span class="o">){</span><span class="c1">//比较左右两个数组元素大小，按大小顺序重新排序在临时数组中</span>
+</span><span class='line'>      <span class="k">if</span><span class="o">(</span><span class="n">array</span><span class="o">[</span><span class="n">i</span><span class="o">]&lt;</span><span class="n">array</span><span class="o">[</span><span class="n">j</span><span class="o">]){</span>
+</span><span class='line'>              <span class="n">temp</span><span class="o">[</span><span class="n">k</span><span class="o">++]</span> <span class="o">=</span> <span class="n">array</span><span class="o">[</span><span class="n">i</span><span class="o">++];</span>
+</span><span class='line'>          <span class="o">}</span>
+</span><span class='line'>          <span class="k">else</span><span class="o">{</span>
+</span><span class='line'>              <span class="n">temp</span><span class="o">[</span><span class="n">k</span><span class="o">++]</span> <span class="o">=</span> <span class="n">array</span><span class="o">[</span><span class="n">j</span><span class="o">++];</span>
+</span><span class='line'>          <span class="o">}</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>      <span class="k">while</span><span class="o">(</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">mid</span><span class="o">){</span>
+</span><span class='line'>          <span class="n">temp</span><span class="o">[</span><span class="n">k</span><span class="o">++]</span> <span class="o">=</span> <span class="n">array</span><span class="o">[</span><span class="n">i</span><span class="o">++];</span>
+</span><span class='line'>      <span class="o">}</span>
+</span><span class='line'>      <span class="k">while</span><span class="o">(</span><span class="n">j</span><span class="o">&lt;=</span><span class="n">r</span><span class="o">){</span>
+</span><span class='line'>          <span class="n">temp</span><span class="o">[</span><span class="n">k</span><span class="o">++]</span> <span class="o">=</span> <span class="n">array</span><span class="o">[</span><span class="n">j</span><span class="o">++];</span>      
+</span><span class='line'>      <span class="o">}</span>
+</span><span class='line'>      <span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">k1</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">;</span> <span class="n">k1</span><span class="o">&lt;</span><span class="n">temp</span><span class="o">.</span><span class="na">length</span><span class="o">;</span><span class="n">k1</span><span class="o">++){</span><span class="c1">//将数组还给ararry</span>
+</span><span class='line'>          <span class="n">array</span><span class="o">[</span><span class="n">k1</span><span class="o">+</span><span class="n">l</span><span class="o">]</span> <span class="o">=</span> <span class="n">temp</span><span class="o">[</span><span class="n">k1</span><span class="o">];</span>
+</span><span class='line'>      <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>接下来是主调用函数 依然是采用了分治的思想</p>
+
+<figure class='code'><figcaption><span>merge_sort</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">private</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">merge_sort</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">array</span><span class="o">,</span> <span class="kt">int</span> <span class="n">l</span><span class="o">,</span> <span class="kt">int</span> <span class="n">r</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>  <span class="kt">int</span> <span class="n">mid</span> <span class="o">=</span> <span class="o">(</span><span class="n">l</span><span class="o">+</span><span class="n">r</span><span class="o">)/</span><span class="mi">2</span><span class="o">;</span>
+</span><span class='line'>  <span class="k">if</span><span class="o">(</span><span class="n">l</span><span class="o">&lt;</span><span class="n">r</span><span class="o">){</span><span class="c1">//分治思想</span>
+</span><span class='line'>  <span class="n">merge_sort</span><span class="o">(</span><span class="n">array</span><span class="o">,</span><span class="n">l</span><span class="o">,</span><span class="n">mid</span><span class="o">);</span><span class="c1">//将左边有序（直到一个元素）</span>
+</span><span class='line'>  <span class="n">merge_sort</span><span class="o">(</span><span class="n">array</span><span class="o">,</span><span class="n">mid</span><span class="o">+</span><span class="mi">1</span><span class="o">,</span><span class="n">r</span><span class="o">);</span><span class="c1">//使右边有序（直到一个元素）</span>
+</span><span class='line'>  <span class="n">merge</span><span class="o">(</span><span class="n">array</span><span class="o">,</span><span class="n">l</span><span class="o">,</span><span class="n">mid</span><span class="o">,</span><span class="n">r</span><span class="o">);</span><span class="c1">//合并</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[java-mvc]]></title>

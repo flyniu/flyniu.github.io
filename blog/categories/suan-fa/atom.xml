@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 算法 | flyniu's blog]]></title>
   <link href="http://flyniu.github.io/blog/categories/suan-fa/atom.xml" rel="self"/>
   <link href="http://flyniu.github.io/"/>
-  <updated>2016-09-19T21:07:19+08:00</updated>
+  <updated>2016-09-28T11:17:49+08:00</updated>
   <id>http://flyniu.github.io/</id>
   <author>
     <name><![CDATA[Niu Zijian]]></name>
@@ -12,6 +12,107 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[algo]]></title>
+    <link href="http://flyniu.github.io/blog/2016/09/25/algo/"/>
+    <updated>2016-09-25T19:14:00+08:00</updated>
+    <id>http://flyniu.github.io/blog/2016/09/25/algo</id>
+    <content type="html"><![CDATA[<p>常用算法的总结</p>
+
+<!--more-->
+
+
+<h1>分治</h1>
+
+<p>在排序算法中，快速排序和归并排血都用到了分治的思想，所谓分治就是分而治之，再利用递归，将一份比较大的任务分成若干个小任务去完成。</p>
+
+<h2>快速排序</h2>
+
+<p>快速排序，采用了挖坑填坑的方法来完成每一趟排序，每一次小排序后都会分成左边一组和右边一组，分别小于和大于一个分界数（一般是数组第一个数字）再分别对这两组进行排序。相当于对左右两组分而置之，直到完成排序。</p>
+
+<pre><code class="java adjustarray(每一趟排序的函数)">    private static int adjustarray(int[] array,int l,int r) {
+        int i=l;//l和r分别是数组的左指针和右指针
+        int j=r;//将其赋给i，j，进行指针的移动
+        while(i&lt;j){
+        while(i&lt;j &amp;&amp; array[j]&gt;=array[l]){
+            j--;
+        }
+        if(i&lt;j){
+            array[i]=array[j];
+            i++;
+        }//先是右指针向左移动找到比临界值小的数，填入上一个坑中
+        while(i&lt;j &amp;&amp; array[i]&lt;=array[l]){
+            i++;
+        }
+        if(i&lt;j){
+            array[j]=array[i];
+            j--;
+        }//接着左指针向右移动找到比临界值大的数，填入上一个坑中
+
+        }   
+        array[j]=array[l];//最后把临界值的数填入i=j也就是临街位置的坑中，该值不会再改变
+        return i;
+    }
+</code></pre>
+
+<p>接下来是quick_sort的主调用函数</p>
+
+<pre><code class="java quick_sort">    prviate static void quick_sort(int[] array,int l,int r) {
+        if(l&lt;r){
+        int mid = adjustarray(array,l,r);
+        for(int i=0;i&lt;r;i++){
+            System.out.print(array[i]+" ");
+        }
+        System.out.println();
+        quick_sort(array,l,mid-1);
+        quick_sort(array,mid+1,r);
+        }
+        //这个函数就是分治思想的函数，思想明白了这个函数也就没有什么不能理解的了
+    }
+</code></pre>
+
+<h2>归并排序</h2>
+
+<p>归并排序是先分再和的思想，其重点和难点是在和（merge）的函数上，对一趟数组，先将其按中间数字的数值等分为左右两部分，比其小的在左，大的在右（从小到大的顺序），直到其为一个数字，相对有序之后，接着进行合并，将数组两两形成有序数组。</p>
+
+<pre><code class="java merge操作">private static void merge(int[] array,int l,int mid,int r){
+    int temp[] = new int[r-l+1];//创建一个临时数组用来承接两个数组合并后的结果
+    int i=l;
+    int j=mid+1;
+    while(i&lt;=mid &amp;&amp; j&lt;=r){//比较左右两个数组元素大小，按大小顺序重新排序在临时数组中
+        if(array[i]&lt;array[j]){
+                temp[k++] = array[i++];
+            }
+            else{
+                temp[k++] = array[j++];
+            }
+    }
+        while(i&lt;=mid){
+            temp[k++] = array[i++];
+        }
+        while(j&lt;=r){
+            temp[k++] = array[j++];     
+        }
+        for(int k1 = 0 ; k1&lt;temp.length;k1++){//将数组还给ararry
+            array[k1+l] = temp[k1];
+        }
+}
+</code></pre>
+
+<p>接下来是主调用函数 依然是采用了分治的思想</p>
+
+<pre><code class="java merge_sort">    private static void merge_sort(int[] array, int l, int r) {
+        int mid = (l+r)/2;
+        if(l&lt;r){//分治思想
+        merge_sort(array,l,mid);//将左边有序（直到一个元素）
+        merge_sort(array,mid+1,r);//使右边有序（直到一个元素）
+        merge(array,l,mid,r);//合并
+        }
+    }
+</code></pre>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[二叉树]]></title>

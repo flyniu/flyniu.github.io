@@ -1,0 +1,310 @@
+
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>algo - flyniu's blog</title>
+	<meta name="author" content="Niu Zijian">
+
+	
+	<meta name="description" content="Algo 常用算法的总结 分治 在排序算法中，快速排序和归并排血都用到了分治的思想，所谓分治就是分而治之，再利用递归，将一份比较大的任务分成若干个小任务去完成。 快速排序 快速排序，采用了挖坑填坑的方法来完成每一趟排序，每一次小排序后都会分成左边一组和右边一组，分别小于和大于一个分界数（ &hellip;">
+	
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="flyniu's blog" type="application/atom+xml">
+	
+	<link rel="canonical" href="http://flyniu.github.io/blog/2016/09/25/algo/">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<link href='http://fonts.googleapis.com/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'>
+	<script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+	
+  
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+			<header id="header" class="inner"><div class="profilepic">
+	
+	<script src="/javascripts/md5.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			$('.profilepic').append("<img src='/images/psbCA8SNCTQ.jpg' "+ " alt='Profile Picture' style='width: 160px;' />");
+		});
+	</script>
+	
+</div>
+
+<nav id="main-nav"><ul class="main">
+    <li><a href="/">Blog</a></li>
+    <li><a href="/blog/archives">Archives</a></li>
+	<li><a href="/flyniu">flyniu</a></li>
+</ul>
+</nav>
+<nav id="sub-nav">
+	<div class="social">
+		
+			<a class="email" href="mailto:niuzijian1@qq.com" title="Email">Email</a>
+		
+		
+		
+		
+		
+			<a class="github" href="https://github.com/flyniu" title="GitHub">GitHub</a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+    	
+    	
+	</div>
+</nav>
+</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			
+				
+			
+			<div class="mid-col-container">
+				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+	<h1 class="title" itemprop="name">Algo</h1>
+	<div class="entry-content" itemprop="articleBody"><p>常用算法的总结</p>
+
+<!--more-->
+
+
+<h1>分治</h1>
+
+<p>在排序算法中，快速排序和归并排血都用到了分治的思想，所谓分治就是分而治之，再利用递归，将一份比较大的任务分成若干个小任务去完成。</p>
+
+<h2>快速排序</h2>
+
+<p>快速排序，采用了挖坑填坑的方法来完成每一趟排序，每一次小排序后都会分成左边一组和右边一组，分别小于和大于一个分界数（一般是数组第一个数字）再分别对这两组进行排序。相当于对左右两组分而置之，直到完成排序。</p>
+
+<figure class='code'><figcaption><span>adjustarray(每一趟排序的函数)</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">private</span> <span class="kd">static</span> <span class="kt">int</span> <span class="nf">adjustarray</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">array</span><span class="o">,</span><span class="kt">int</span> <span class="n">l</span><span class="o">,</span><span class="kt">int</span> <span class="n">r</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>  <span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="n">l</span><span class="o">;</span><span class="c1">//l和r分别是数组的左指针和右指针</span>
+</span><span class='line'>  <span class="kt">int</span> <span class="n">j</span><span class="o">=</span><span class="n">r</span><span class="o">;</span><span class="c1">//将其赋给i，j，进行指针的移动</span>
+</span><span class='line'>  <span class="k">while</span><span class="o">(</span><span class="n">i</span><span class="o">&lt;</span><span class="n">j</span><span class="o">){</span>
+</span><span class='line'>  <span class="k">while</span><span class="o">(</span><span class="n">i</span><span class="o">&lt;</span><span class="n">j</span> <span class="o">&amp;&amp;</span> <span class="n">array</span><span class="o">[</span><span class="n">j</span><span class="o">]&gt;=</span><span class="n">array</span><span class="o">[</span><span class="n">l</span><span class="o">]){</span>
+</span><span class='line'>      <span class="n">j</span><span class="o">--;</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>  <span class="k">if</span><span class="o">(</span><span class="n">i</span><span class="o">&lt;</span><span class="n">j</span><span class="o">){</span>
+</span><span class='line'>      <span class="n">array</span><span class="o">[</span><span class="n">i</span><span class="o">]=</span><span class="n">array</span><span class="o">[</span><span class="n">j</span><span class="o">];</span>
+</span><span class='line'>      <span class="n">i</span><span class="o">++;</span>
+</span><span class='line'>  <span class="o">}</span><span class="c1">//先是右指针向左移动找到比临界值小的数，填入上一个坑中</span>
+</span><span class='line'>  <span class="k">while</span><span class="o">(</span><span class="n">i</span><span class="o">&lt;</span><span class="n">j</span> <span class="o">&amp;&amp;</span> <span class="n">array</span><span class="o">[</span><span class="n">i</span><span class="o">]&lt;=</span><span class="n">array</span><span class="o">[</span><span class="n">l</span><span class="o">]){</span>
+</span><span class='line'>      <span class="n">i</span><span class="o">++;</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>  <span class="k">if</span><span class="o">(</span><span class="n">i</span><span class="o">&lt;</span><span class="n">j</span><span class="o">){</span>
+</span><span class='line'>      <span class="n">array</span><span class="o">[</span><span class="n">j</span><span class="o">]=</span><span class="n">array</span><span class="o">[</span><span class="n">i</span><span class="o">];</span>
+</span><span class='line'>      <span class="n">j</span><span class="o">--;</span>
+</span><span class='line'>  <span class="o">}</span><span class="c1">//接着左指针向右移动找到比临界值大的数，填入上一个坑中</span>
+</span><span class='line'>  
+</span><span class='line'>  <span class="o">}</span>    
+</span><span class='line'>  <span class="n">array</span><span class="o">[</span><span class="n">j</span><span class="o">]=</span><span class="n">array</span><span class="o">[</span><span class="n">l</span><span class="o">];</span><span class="c1">//最后把临界值的数填入i=j也就是临街位置的坑中，该值不会再改变</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">i</span><span class="o">;</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>接下来是quick_sort的主调用函数</p>
+
+<figure class='code'><figcaption><span>quick_sort</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">prviate</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">quick_sort</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">array</span><span class="o">,</span><span class="kt">int</span> <span class="n">l</span><span class="o">,</span><span class="kt">int</span> <span class="n">r</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>  <span class="k">if</span><span class="o">(</span><span class="n">l</span><span class="o">&lt;</span><span class="n">r</span><span class="o">){</span>
+</span><span class='line'>  <span class="kt">int</span> <span class="n">mid</span> <span class="o">=</span> <span class="n">adjustarray</span><span class="o">(</span><span class="n">array</span><span class="o">,</span><span class="n">l</span><span class="o">,</span><span class="n">r</span><span class="o">);</span>
+</span><span class='line'>  <span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">r</span><span class="o">;</span><span class="n">i</span><span class="o">++){</span>
+</span><span class='line'>      <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">print</span><span class="o">(</span><span class="n">array</span><span class="o">[</span><span class="n">i</span><span class="o">]+</span><span class="s">&quot; &quot;</span><span class="o">);</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>  <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">();</span>
+</span><span class='line'>  <span class="n">quick_sort</span><span class="o">(</span><span class="n">array</span><span class="o">,</span><span class="n">l</span><span class="o">,</span><span class="n">mid</span><span class="o">-</span><span class="mi">1</span><span class="o">);</span>
+</span><span class='line'>  <span class="n">quick_sort</span><span class="o">(</span><span class="n">array</span><span class="o">,</span><span class="n">mid</span><span class="o">+</span><span class="mi">1</span><span class="o">,</span><span class="n">r</span><span class="o">);</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>  <span class="c1">//这个函数就是分治思想的函数，思想明白了这个函数也就没有什么不能理解的了</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>归并排序</h2>
+
+<p>归并排序是先分再和的思想，其重点和难点是在和（merge）的函数上，对一趟数组，先将其按中间数字的数值等分为左右两部分，比其小的在左，大的在右（从小到大的顺序），直到其为一个数字，相对有序之后，接着进行合并，将数组两两形成有序数组。</p>
+
+<figure class='code'><figcaption><span>merge操作</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">private</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">merge</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">array</span><span class="o">,</span><span class="kt">int</span> <span class="n">l</span><span class="o">,</span><span class="kt">int</span> <span class="n">mid</span><span class="o">,</span><span class="kt">int</span> <span class="n">r</span><span class="o">){</span>
+</span><span class='line'>  <span class="kt">int</span> <span class="n">temp</span><span class="o">[]</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="n">r</span><span class="o">-</span><span class="n">l</span><span class="o">+</span><span class="mi">1</span><span class="o">];</span><span class="c1">//创建一个临时数组用来承接两个数组合并后的结果</span>
+</span><span class='line'>  <span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="n">l</span><span class="o">;</span>
+</span><span class='line'>  <span class="kt">int</span> <span class="n">j</span><span class="o">=</span><span class="n">mid</span><span class="o">+</span><span class="mi">1</span><span class="o">;</span>
+</span><span class='line'>  <span class="k">while</span><span class="o">(</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">mid</span> <span class="o">&amp;&amp;</span> <span class="n">j</span><span class="o">&lt;=</span><span class="n">r</span><span class="o">){</span><span class="c1">//比较左右两个数组元素大小，按大小顺序重新排序在临时数组中</span>
+</span><span class='line'>      <span class="k">if</span><span class="o">(</span><span class="n">array</span><span class="o">[</span><span class="n">i</span><span class="o">]&lt;</span><span class="n">array</span><span class="o">[</span><span class="n">j</span><span class="o">]){</span>
+</span><span class='line'>              <span class="n">temp</span><span class="o">[</span><span class="n">k</span><span class="o">++]</span> <span class="o">=</span> <span class="n">array</span><span class="o">[</span><span class="n">i</span><span class="o">++];</span>
+</span><span class='line'>          <span class="o">}</span>
+</span><span class='line'>          <span class="k">else</span><span class="o">{</span>
+</span><span class='line'>              <span class="n">temp</span><span class="o">[</span><span class="n">k</span><span class="o">++]</span> <span class="o">=</span> <span class="n">array</span><span class="o">[</span><span class="n">j</span><span class="o">++];</span>
+</span><span class='line'>          <span class="o">}</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>      <span class="k">while</span><span class="o">(</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">mid</span><span class="o">){</span>
+</span><span class='line'>          <span class="n">temp</span><span class="o">[</span><span class="n">k</span><span class="o">++]</span> <span class="o">=</span> <span class="n">array</span><span class="o">[</span><span class="n">i</span><span class="o">++];</span>
+</span><span class='line'>      <span class="o">}</span>
+</span><span class='line'>      <span class="k">while</span><span class="o">(</span><span class="n">j</span><span class="o">&lt;=</span><span class="n">r</span><span class="o">){</span>
+</span><span class='line'>          <span class="n">temp</span><span class="o">[</span><span class="n">k</span><span class="o">++]</span> <span class="o">=</span> <span class="n">array</span><span class="o">[</span><span class="n">j</span><span class="o">++];</span>      
+</span><span class='line'>      <span class="o">}</span>
+</span><span class='line'>      <span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">k1</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">;</span> <span class="n">k1</span><span class="o">&lt;</span><span class="n">temp</span><span class="o">.</span><span class="na">length</span><span class="o">;</span><span class="n">k1</span><span class="o">++){</span><span class="c1">//将数组还给ararry</span>
+</span><span class='line'>          <span class="n">array</span><span class="o">[</span><span class="n">k1</span><span class="o">+</span><span class="n">l</span><span class="o">]</span> <span class="o">=</span> <span class="n">temp</span><span class="o">[</span><span class="n">k1</span><span class="o">];</span>
+</span><span class='line'>      <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>接下来是主调用函数 依然是采用了分治的思想</p>
+
+<figure class='code'><figcaption><span>merge_sort</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">private</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">merge_sort</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">array</span><span class="o">,</span> <span class="kt">int</span> <span class="n">l</span><span class="o">,</span> <span class="kt">int</span> <span class="n">r</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>  <span class="kt">int</span> <span class="n">mid</span> <span class="o">=</span> <span class="o">(</span><span class="n">l</span><span class="o">+</span><span class="n">r</span><span class="o">)/</span><span class="mi">2</span><span class="o">;</span>
+</span><span class='line'>  <span class="k">if</span><span class="o">(</span><span class="n">l</span><span class="o">&lt;</span><span class="n">r</span><span class="o">){</span><span class="c1">//分治思想</span>
+</span><span class='line'>  <span class="n">merge_sort</span><span class="o">(</span><span class="n">array</span><span class="o">,</span><span class="n">l</span><span class="o">,</span><span class="n">mid</span><span class="o">);</span><span class="c1">//将左边有序（直到一个元素）</span>
+</span><span class='line'>  <span class="n">merge_sort</span><span class="o">(</span><span class="n">array</span><span class="o">,</span><span class="n">mid</span><span class="o">+</span><span class="mi">1</span><span class="o">,</span><span class="n">r</span><span class="o">);</span><span class="c1">//使右边有序（直到一个元素）</span>
+</span><span class='line'>  <span class="n">merge</span><span class="o">(</span><span class="n">array</span><span class="o">,</span><span class="n">l</span><span class="o">,</span><span class="n">mid</span><span class="o">,</span><span class="n">r</span><span class="o">);</span><span class="c1">//合并</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+</div>
+
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	
+	<a class="addthis_counter addthis_pill_style"></a>
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+
+
+<section id="comment">
+    <h1 class="title">Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="/blog/2016/09/25/algo" data-title="algo" data-url="http://flyniu.github.io /blog/2016/09/25/algo/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"flyniu1"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+</div>
+</section>
+</div>
+			</div>
+			<footer id="footer" class="inner">Copyright &copy; 2016
+
+    Niu Zijian
+
+
+Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a></footer>
+		</div>
+	</div>
+	
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
