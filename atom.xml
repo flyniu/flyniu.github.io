@@ -4,7 +4,7 @@
   <title><![CDATA[flyniu's blog]]></title>
   <link href="http://flyniu.github.io/atom.xml" rel="self"/>
   <link href="http://flyniu.github.io/"/>
-  <updated>2016-09-28T11:17:49+08:00</updated>
+  <updated>2016-10-06T22:24:50+08:00</updated>
   <id>http://flyniu.github.io/</id>
   <author>
     <name><![CDATA[Niu Zijian]]></name>
@@ -180,6 +180,154 @@
 </span><span class='line'><span class="o">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
+
+<h1>动态规划</h1>
+
+<h2>跳石板问题 &amp;&amp; 背包问题</h2>
+
+<h3>跳石板问题：</h3>
+
+<p>小易来到了一条石板路前，每块石板上从1挨着编号为：1、2、3…….
+这条石板路要根据特殊的规则才能前进：对于小易当前所在的编号为K的 石板，小易单次只能往前跳K的一个约数(不含1和K)步，即跳到K+X(X为K的一个非1和本身的约数)的位置。 小易当前处在编号为N的石板，他想跳到编号恰好为M的石板去，小易想知道最少需要跳跃几次可以到达。
+例如：
+N = 4，M = 24：
+4->6->8->12->18->24
+于是小易最少需要跳跃5次，就可以从4号石板跳到24号石板
+输入描述:
+输入为一行，有两个整数N，M，以空格隔开。
+(4 ≤ N ≤ 100000)
+(N ≤ M ≤ 100000)</p>
+
+<p>输出描述:
+输出小易最少需要跳跃的步数,如果不能到达输出-1</p>
+
+<p>输入例子:
+4 24</p>
+
+<p>输出例子:
+5</p>
+
+<p>这道题可以采用动态规划的思想,规划的量是从起点到每一个点的最小的距离。因为每一个点往前前进的步数只能是他的约数，那么到下一个点为这个点加上他的一个约数，所以从起点到这个点的最短距离就是取 上个点的最小距离+1 或者是到这个点的最小距离 中的最小值。
+每个点的最短距离设为dp[i] x为i的约数  那么 dp【i+x】 = Math.min(dp[i+x],dp[i]+1)</p>
+
+<figure class='code'><figcaption><span>跳石板问题</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'> <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>      <span class="n">Scanner</span> <span class="n">scanner</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">Scanner</span><span class="o">(</span><span class="n">System</span><span class="o">.</span><span class="na">in</span><span class="o">);</span>
+</span><span class='line'>      <span class="k">while</span><span class="o">(</span><span class="n">scanner</span><span class="o">.</span><span class="na">hasNext</span><span class="o">()){</span>
+</span><span class='line'>          <span class="kt">int</span> <span class="n">from</span> <span class="o">=</span> <span class="n">scanner</span><span class="o">.</span><span class="na">nextInt</span><span class="o">();</span>
+</span><span class='line'>          <span class="kt">int</span> <span class="n">to</span> <span class="o">=</span> <span class="n">scanner</span><span class="o">.</span><span class="na">nextInt</span><span class="o">();</span>
+</span><span class='line'>          <span class="kt">int</span> <span class="n">result</span> <span class="o">=</span> <span class="n">calresult</span><span class="o">(</span><span class="n">from</span><span class="o">,</span><span class="n">to</span><span class="o">);</span>
+</span><span class='line'>          <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">result</span><span class="o">);</span>
+</span><span class='line'>      <span class="o">}</span>
+</span><span class='line'> <span class="o">}</span> 
+</span><span class='line'>
+</span><span class='line'>  <span class="kd">private</span> <span class="kd">static</span> <span class="kt">int</span> <span class="nf">calresult</span><span class="o">(</span><span class="kt">int</span> <span class="n">from</span><span class="o">,</span> <span class="kt">int</span> <span class="n">to</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>      <span class="k">if</span><span class="o">(</span><span class="n">from</span> <span class="o">==</span> <span class="n">to</span><span class="o">){</span>
+</span><span class='line'>          <span class="k">return</span> <span class="mi">0</span><span class="o">;</span>
+</span><span class='line'>      <span class="o">}</span>
+</span><span class='line'>      <span class="kt">int</span><span class="o">[]</span> <span class="n">dp</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="n">to</span><span class="o">-</span><span class="n">from</span><span class="o">+</span><span class="mi">1</span><span class="o">];</span> <span class="c1">//将规划的量存为dp数组内</span>
+</span><span class='line'>      <span class="kt">int</span> <span class="n">step</span> <span class="o">=</span> <span class="n">to</span><span class="o">-</span><span class="n">from</span><span class="o">+</span><span class="mi">1</span><span class="o">;</span>
+</span><span class='line'>      <span class="n">dp</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>                       
+</span><span class='line'>      <span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="o">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">step</span><span class="o">;</span><span class="n">i</span><span class="o">++){</span>
+</span><span class='line'>          <span class="n">dp</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">Integer</span><span class="o">.</span><span class="na">MAX_VALUE</span><span class="o">;</span>
+</span><span class='line'>      <span class="o">}</span>
+</span><span class='line'>      <span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">step</span><span class="o">;</span><span class="n">i</span><span class="o">++){</span>
+</span><span class='line'>          <span class="k">if</span><span class="o">(</span><span class="n">dp</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">==</span> <span class="n">Integer</span><span class="o">.</span><span class="na">MAX_VALUE</span><span class="o">){</span>
+</span><span class='line'>              <span class="n">dp</span><span class="o">[</span><span class="n">i</span><span class="o">]=</span><span class="mi">0</span><span class="o">;</span> 
+</span><span class='line'>              <span class="k">continue</span><span class="o">;</span>
+</span><span class='line'>          <span class="o">}</span>
+</span><span class='line'>          
+</span><span class='line'>          <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">list</span> <span class="o">=</span> <span class="n">getyinshu</span><span class="o">(</span><span class="n">i</span> <span class="o">+</span> <span class="n">from</span><span class="o">);</span><span class="c1">//求因数的函数</span>
+</span><span class='line'>          
+</span><span class='line'>          <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">list</span><span class="o">.</span><span class="na">size</span><span class="o">();</span> <span class="n">j</span><span class="o">++)</span> <span class="o">{</span>
+</span><span class='line'>                <span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="n">list</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">j</span><span class="o">);</span>
+</span><span class='line'>              <span class="k">if</span><span class="o">(</span><span class="n">i</span><span class="o">+</span><span class="n">from</span><span class="o">+</span><span class="n">x</span><span class="o">&lt;=</span><span class="n">to</span><span class="o">){</span>
+</span><span class='line'>                  <span class="n">dp</span><span class="o">[</span><span class="n">i</span><span class="o">+</span><span class="n">x</span><span class="o">]</span> <span class="o">=</span> <span class="n">Math</span><span class="o">.</span><span class="na">min</span><span class="o">(</span><span class="n">dp</span><span class="o">[</span><span class="n">i</span><span class="o">+</span><span class="n">x</span><span class="o">],</span> <span class="n">dp</span><span class="o">[</span><span class="n">i</span><span class="o">]+</span><span class="mi">1</span><span class="o">);</span><span class="c1">//整个算法的关键，将这个语句弄懂这个算法显得十分简单              </span>
+</span><span class='line'>              <span class="o">}</span>
+</span><span class='line'>          <span class="o">}</span>
+</span><span class='line'>          
+</span><span class='line'>      <span class="o">}</span>
+</span><span class='line'>      <span class="k">if</span><span class="o">(</span><span class="n">dp</span><span class="o">[</span><span class="n">to</span><span class="o">-</span><span class="n">from</span><span class="o">]</span> <span class="o">==</span> <span class="mi">0</span><span class="o">){</span>
+</span><span class='line'>          <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="o">;</span>
+</span><span class='line'>      <span class="o">}</span><span class="k">else</span><span class="o">{</span>
+</span><span class='line'>          <span class="k">return</span> <span class="n">dp</span><span class="o">[</span><span class="n">to</span><span class="o">-</span><span class="n">from</span><span class="o">];</span>
+</span><span class='line'>      <span class="o">}</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>  <span class="kd">private</span> <span class="kd">static</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="nf">getyinshu</span><span class="o">(</span><span class="kt">int</span> <span class="n">num</span><span class="o">)</span> <span class="o">{</span><span class="c1">//求因数的函数</span>
+</span><span class='line'>      <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">list</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;();</span>
+</span><span class='line'>      <span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">2</span><span class="o">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">Math</span><span class="o">.</span><span class="na">sqrt</span><span class="o">(</span><span class="n">num</span><span class="o">);</span><span class="n">i</span><span class="o">++){</span>
+</span><span class='line'>          <span class="k">if</span><span class="o">(</span><span class="n">num</span><span class="o">%</span><span class="n">i</span><span class="o">==</span><span class="mi">0</span><span class="o">){</span>
+</span><span class='line'>              <span class="n">list</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
+</span><span class='line'>              <span class="k">if</span><span class="o">(</span><span class="n">num</span><span class="o">/</span><span class="n">i</span><span class="o">!=</span><span class="n">i</span><span class="o">){</span><span class="c1">//注意这里在写程序的时候出错了，排除其平方数的情况</span>
+</span><span class='line'>                  <span class="n">list</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">num</span><span class="o">/</span><span class="n">i</span><span class="o">);</span>
+</span><span class='line'>              <span class="o">}</span>
+</span><span class='line'>          <span class="o">}</span>
+</span><span class='line'>          
+</span><span class='line'>      <span class="o">}</span>
+</span><span class='line'>      <span class="k">return</span> <span class="n">list</span><span class="o">;</span>
+</span><span class='line'>  <span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>背包问题</h3>
+
+<p>题目描述：</p>
+
+<p>有编号分别为a,b,c,d,e的五件物品，它们的重量分别是2,2,6,5,4，它们的价值分别是6,3,5,4,6，现在给你个承重为10的背包，如何让背包里装入的物品具有最大的价值总和？</p>
 ]]></content>
   </entry>
   
@@ -486,6 +634,33 @@ request.getRequestDispatcher(&ldquo;detail.jsp&rdquo;).forward(request, response
 </span><span class='line'>  <span class="o">}</span>
 </span><span class='line'><span class="o">}</span>
 </span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[SElinux]]></title>
+    <link href="http://flyniu.github.io/blog/2016/05/20/SElinux/"/>
+    <updated>2016-05-20T18:49:00+08:00</updated>
+    <id>http://flyniu.github.io/blog/2016/05/20/SElinux</id>
+    <content type="html"><![CDATA[<p>实验课，关于SElinux</p>
+
+<!--more-->
+
+
+<p>SElinux是linux的一个安全子系统，是对于强制访问控制的实现。但可能是我对其认识不够，或者是安全意识不到位，整个实验下来，没有觉得他有很大的存在价值。而且无奈增加了一些访问资源时本不应该出现的问题。</p>
+
+<p>但还是Mark一下其基本的操作，防止以后碰到有关SElinux资源访问的问题时，不知怎么处理。。。。</p>
+
+<ul>
+<li>SElinux中有安全上下文的概念，通过ls -Z $filename 可以查看该文件的安全上下文。其中有三个字段user、role和type，最后一个type字段十分关键，是其进行访问控制限制的关键字段。</li>
+<li><strong>sestatus</strong>命令可以查看selinux具体的策略和状态。SElinux三种实施状态为：enforcing，permissive，disable。其中 enforcing 代表了完全实施 SELinux 策略；permissive 代表了允许全部访问，但是对于违反规则的行为会进行记录；disabled 表示禁止使用 SELinux。</li>
+<li><strong>etenforce 0</strong> 或<strong>setenforce 1</strong> 命令可以进行enforcing和permissive状态之间的切换，并且不用重新启动。但如果要使状态变为disable，则需要更改etc/selinux下的config文件，并进行重新启动</li>
+<li><p>当遇到cannot restore segment prot after reloc问题是，往往是由于SElinux的问题，可以考虑将SElinux关掉（disable）,或者使用
+chcon -t 命令更改进程或文件的type字段 具体命令：</p>
+
+<p>  <strong>chcon -t textrel_shlib_t file_name</strong></p></li>
+</ul>
 
 ]]></content>
   </entry>

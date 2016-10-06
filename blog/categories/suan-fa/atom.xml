@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 算法 | flyniu's blog]]></title>
   <link href="http://flyniu.github.io/blog/categories/suan-fa/atom.xml" rel="self"/>
   <link href="http://flyniu.github.io/"/>
-  <updated>2016-09-28T11:17:49+08:00</updated>
+  <updated>2016-10-06T22:24:50+08:00</updated>
   <id>http://flyniu.github.io/</id>
   <author>
     <name><![CDATA[Niu Zijian]]></name>
@@ -111,6 +111,99 @@
         }
     }
 </code></pre>
+
+<h1>动态规划</h1>
+
+<h2>跳石板问题 &amp;&amp; 背包问题</h2>
+
+<h3>跳石板问题：</h3>
+
+<p>小易来到了一条石板路前，每块石板上从1挨着编号为：1、2、3…….
+这条石板路要根据特殊的规则才能前进：对于小易当前所在的编号为K的 石板，小易单次只能往前跳K的一个约数(不含1和K)步，即跳到K+X(X为K的一个非1和本身的约数)的位置。 小易当前处在编号为N的石板，他想跳到编号恰好为M的石板去，小易想知道最少需要跳跃几次可以到达。
+例如：
+N = 4，M = 24：
+4->6->8->12->18->24
+于是小易最少需要跳跃5次，就可以从4号石板跳到24号石板
+输入描述:
+输入为一行，有两个整数N，M，以空格隔开。
+(4 ≤ N ≤ 100000)
+(N ≤ M ≤ 100000)</p>
+
+<p>输出描述:
+输出小易最少需要跳跃的步数,如果不能到达输出-1</p>
+
+<p>输入例子:
+4 24</p>
+
+<p>输出例子:
+5</p>
+
+<p>这道题可以采用动态规划的思想,规划的量是从起点到每一个点的最小的距离。因为每一个点往前前进的步数只能是他的约数，那么到下一个点为这个点加上他的一个约数，所以从起点到这个点的最短距离就是取 上个点的最小距离+1 或者是到这个点的最小距离 中的最小值。
+每个点的最短距离设为dp[i] x为i的约数  那么 dp【i+x】 = Math.min(dp[i+x],dp[i]+1)</p>
+
+<pre><code class="java 跳石板问题">
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        while(scanner.hasNext()){
+            int from = scanner.nextInt();
+            int to = scanner.nextInt();
+            int result = calresult(from,to);
+            System.out.println(result);
+        }
+ }  
+
+    private static int calresult(int from, int to) {
+        if(from == to){
+            return 0;
+        }
+        int[] dp = new int[to-from+1]; //将规划的量存为dp数组内
+        int step = to-from+1;
+        dp[0] = 0;                      
+        for(int i=1;i&lt;step;i++){
+            dp[i] = Integer.MAX_VALUE;
+        }
+        for(int i=0;i&lt;step;i++){
+            if(dp[i] == Integer.MAX_VALUE){
+                dp[i]=0;    
+                continue;
+            }
+
+            ArrayList&lt;Integer&gt; list = getyinshu(i + from);//求因数的函数
+
+            for (int j = 0; j &lt; list.size(); j++) {
+                int x = list.get(j);                               
+                if(i+from+x&lt;=to){
+                    dp[i+x] = Math.min(dp[i+x], dp[i]+1);//整个算法的关键，将这个语句弄懂这个算法显得十分简单              
+                }
+            }
+
+        }
+        if(dp[to-from] == 0){
+            return -1;
+        }else{
+            return dp[to-from];
+        }
+    }
+    private static ArrayList&lt;Integer&gt; getyinshu(int num) {//求因数的函数
+        ArrayList&lt;Integer&gt; list = new ArrayList&lt;Integer&gt;();
+        for(int i=2;i&lt;=Math.sqrt(num);i++){
+            if(num%i==0){
+                list.add(i);
+                if(num/i!=i){//注意这里在写程序的时候出错了，排除其平方数的情况
+                    list.add(num/i);
+                }
+            }
+
+        }
+        return list;
+    }
+</code></pre>
+
+<h3>背包问题</h3>
+
+<p>题目描述：</p>
+
+<p>有编号分别为a,b,c,d,e的五件物品，它们的重量分别是2,2,6,5,4，它们的价值分别是6,3,5,4,6，现在给你个承重为10的背包，如何让背包里装入的物品具有最大的价值总和？</p>
 ]]></content>
   </entry>
   
